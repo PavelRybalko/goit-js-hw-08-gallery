@@ -9,23 +9,51 @@ const buttonCloseRef = document.querySelector(
 
 const fragment = document.createDocumentFragment();
 
+const createGalleryItem = (item) => {
+  const linkAttrs = {
+    href: item.original,
+    class: "gallery__link",
+  };
+
+  const imgAttrs = {
+    "data-source": item.original,
+    src: item.preview,
+    alt: item.description,
+    class: "gallery__image",
+  };
+
+  const li = createElement("li", { class: "gallery__item" });
+  const a = createElement("a", linkAttrs);
+  const img = createElement("img", imgAttrs);
+
+  a.appendChild(img);
+  li.appendChild(a);
+
+  return li;
+};
+
+function createElement(name, attrs = {}) {
+  const $el = document.createElement(name);
+  $el.classList.add(attrs.class);
+
+  if (name === "img") {
+    $el.src = attrs.src;
+    $el.alt = attrs.alt;
+    $el.dataset.source = attrs["data-source"];
+  }
+
+  if (name === "a") {
+    $el.href = attrs.href;
+  }
+
+  return $el;
+}
+
+const findTargetIndex = () =>
+  galleryItemsArr.findIndex((el) => el.original === lightboxImageRef.src);
+
 const createGalleryItemsMarkup = galleryItemsArr.forEach((item) => {
-  const listRef = document.createElement("li");
-  listRef.classList.add("gallery__item");
-
-  const linkRef = document.createElement("a");
-  linkRef.classList.add("gallery__link");
-  linkRef.href = item.original;
-
-  const imgRef = document.createElement("img");
-  imgRef.classList.add("gallery__image");
-  imgRef.src = item.preview;
-  imgRef.dataset.source = item.original;
-  imgRef.alt = item.description;
-
-  listRef.appendChild(linkRef);
-  linkRef.appendChild(imgRef);
-  fragment.appendChild(listRef);
+  fragment.appendChild(createGalleryItem(item));
 });
 
 listGalleryRef.append(fragment);
@@ -51,8 +79,21 @@ const onCloseModal = ({ target, code }) => {
 };
 
 function onPressESC(event) {
+  const idx = findTargetIndex();
+
   if (event.code === "Escape") {
     onCloseModal(event);
+  }
+
+  if (event.code === "ArrowLeft") {
+    if (idx !== 0) {
+      lightboxImageRef.src = galleryItemsArr[idx - 1].original;
+    }
+  }
+  if (event.code === "ArrowRight") {
+    if (idx !== galleryItemsArr.length - 1) {
+      lightboxImageRef.src = galleryItemsArr[idx + 1].original;
+    }
   }
 }
 
