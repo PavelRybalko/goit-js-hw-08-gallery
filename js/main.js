@@ -1,4 +1,4 @@
-import galleryItemsArr from "./js/gallery-items.js";
+import galleryItemsArr from "./gallery-items.js";
 
 const lightboxRef = document.querySelector(".js-lightbox");
 const lightboxImageRef = document.querySelector("img.lightbox__image");
