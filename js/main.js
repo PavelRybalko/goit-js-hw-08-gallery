@@ -63,7 +63,7 @@ const onOpenModal = ({ target }) => {
   if (target.nodeName !== "IMG") return;
   lightboxRef.classList.add("is-open");
   lightboxImageRef.src = target.dataset.source;
-  window.addEventListener("keydown", onPressESC);
+  window.addEventListener("keydown", onPressKey);
 };
 
 const onCloseModal = ({ target, code }) => {
@@ -74,11 +74,11 @@ const onCloseModal = ({ target, code }) => {
   ) {
     lightboxImageRef.src = "";
     lightboxRef.classList.remove("is-open");
-    window.removeEventListener("keydown", onPressESC);
+    window.removeEventListener("keydown", onPressKey);
   }
 };
 
-function onPressESC(event) {
+function onPressKey(event) {
   const idx = findTargetIndex();
 
   if (event.code === "Escape") {
