@@ -34,7 +34,6 @@ const createGalleryItem = (item) => {
 
 function createElement(name, attrs = {}) {
   const $el = document.createElement(name);
-  $el.classList.add(attrs.class);
 
   for (let key in attrs) {
     $el.setAttribute(key, attrs[key]);
