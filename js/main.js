@@ -36,14 +36,8 @@ function createElement(name, attrs = {}) {
   const $el = document.createElement(name);
   $el.classList.add(attrs.class);
 
-  if (name === "img") {
-    $el.src = attrs.src;
-    $el.alt = attrs.alt;
-    $el.dataset.source = attrs["data-source"];
-  }
-
-  if (name === "a") {
-    $el.href = attrs.href;
+  for (let key in attrs) {
+    $el.setAttribute(key, attrs[key]);
   }
 
   return $el;
